@@ -1,8 +1,34 @@
+<?php
+/**
+ * Code to load wordpress methods so we can use their authentication methods
+ */
+
+define('WP_USE_THEMES', true);
+
+if ( !isset($wp_did_header) ) {
+
+	$wp_did_header = true;
+
+	require_once( '../wp-load.php' );
+
+}
+
+/**
+ * Show error message if the user doesn't have sufficient privelages
+ */
+
+if (! current_user_can('publish_posts')) {
+	header ('Status: 403 Forbidden');
+	exit;
+}
+
+?>
 <html>
 <head>
-    <title>Thrash Magazine Download Center</title>
+	<title>Thrash Magazine Download Center</title>
 </head>
 <body>
+
     <h1>Thrash Download Center</h1>
 	<p>Click download to begin downloading an album to review. The download may take several seconds to start, do not press the button multiple times.
     Staff will be automatically notified of your download so we can cycle new albums into the list.</p>
