@@ -27,8 +27,18 @@ $album = $_POST['album'];
 if (isset ($album)){
     $user = wp_get_current_user();
     $username = $user->display_name;
-    $email = 'chris.riley@thrashmag.com'; //Comma seperated list
-    $timestamp = current_time( 'mysql' );
+    
+    //Comma seperated list of email addresses to send to
+    $email = "chris.riley@thrashmag.com";
+    $email .= "don.alcombright@thrashmag.com,";
+    $email .= "michael.crisci@hotmail.com,";
+    $email .= "joshryan@gmail.com,";
+    $email .= "notd89rix@yahoo.com,";
+    $email .= "graham.wilson@gmail.com,";
+    $email .= "redtednation5924@yahoo.com,";
+    $email .= "phallus102@aol.com";
+                
+    $timestamp = date('m-d-Y');
     $message = "New Album Downloaded For Review\n\n";
     $message .= sprintf("Date: %s\n", $timestamp);
     $message .= sprintf("User: %s\n", $username );
