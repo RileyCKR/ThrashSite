@@ -25,9 +25,6 @@ if (! current_user_can('publish_posts')) {
  */
 $album = $_POST['album'];
 if (isset ($album)){
-    //echo "<h1>" . $album . "</h1>";
-    //header('location: ' . $album);
-    
     $user = wp_get_current_user();
     $username = $user->display_name;
     $email = 'chris.riley@thrashmag.com'; //Comma seperated list
@@ -43,31 +40,20 @@ if (isset ($album)){
     $message .= "\n\n";
     $message .= "Thanks,\n";
     $message .= "Don Alcombright\n\n";
-//    "<p>New Album Downloaded For Review </p>" +
-//            "<p><strong>Date: {0}<br />" +
-//            "User: {1}<br />" +
-//            "File: {2}</strong></p>" +
-//            "<p>Within a week {2} will be removed from the online storage and more albums will be added. If you decide not to review this album, " +
-//            "please Reply-All so we know not to remove this album from the list.</p>" +
-//            "<p>You received this message because you write reviews for us.<br />" +
-//            "The above message is for our tracking so we know which albums are still available to review and so we know who has what albums.</p>" +
-//            "<p>Thanks,<br/>" +
-//            "Don Alcombright</p>";
+    
     wp_mail( $email, 'Album Download Notification', $message );
 
     // Check success
-    
     $error_msg = '';
     global $phpmailer;
     if ( $phpmailer->ErrorInfo != "" ) {
-        $error_msg  = '<div class="error"><p>An error was encountered while trying to send the test e-mail.</p>';
+        $error_msg  = '<div class="error" style="color:red;"><p>An error was encountered while trying to send the e-mail.</p>';
         $error_msg .= '<blockquote style="font-weight:bold;">';
         $error_msg .= '<p>' . $phpmailer->ErrorInfo . '</p>';
         $error_msg .= '</p></blockquote>';
         $error_msg .= '</div>';
     } else {
-        $error_msg  = '<div class="updated"><p>Test e-mail sent.</p>';
-        $error_msg .= '<p>' . sprintf('The body of the e-mail includes this time-stamp: %s.', $timestamp ) . '</p></div>';
+        header("location: " . $album);
     }
 }
 
@@ -75,6 +61,7 @@ if (isset ($album)){
 <html>
 <head>
     <title>Thrash Magazine Download Center</title>
+    <script type="text/javascript" src="/wp-includes/js/jquery/jquery.js?ver=1.7.1"></script>
 </head>
 <body>
     <form action="." method="post">
@@ -108,18 +95,35 @@ if (isset ($album)){
 		$files = glob("" . $directory . "{*.zip,*.rar,*.7z}", GLOB_BRACE);
 		foreach($files as $thisFile)
 		{
-			echo "<tr>";
-			echo "<td>" . $thisFile . "</td>";
-			echo "<td>" . filesize($thisFile) . "</td>";
-			echo "<td>" . date('m-d-Y', filemtime( $thisFile ) ) . "</td>";
-			echo '<td><input type="button" value="Download" onclick="this.form.submit()"></td>';
-			echo "</tr>";
+                    $prettyFile = str_replace("./", "", $thisFile );
+                    $prettyBytes = '';
+                    $bytes = filesize($thisFile);
+                    if ($bytes >= 1048576){
+                        $prettyBytes = number_format($bytes / 1048576, 2) . ' MB';
+                    }
+                    elseif ($bytes >= 1024){
+                        $prettyBytes = number_format($bytes / 1024, 2) . ' KB';
+                    }
+                    else {
+                        $prettyBytes = $bytes . ' bytes';
+                    }
+
+                    
+                    $tableRow = "<tr>";
+                    $tableRow .= sprintf("<td>%s</td>", $prettyFile);
+                    $tableRow .= sprintf("<td style=\"text-align:right;\">%s</td>", $prettyBytes);
+                    $tableRow .= sprintf("<td>%s</td>", date('m-d-Y', filemtime( $thisFile )));
+                    $tableRow .= "<td><input type=\"button\" value=\"Download\" ";
+                    $tableRow .= sprintf('onclick="jQuery(\'#album\').val(\'%s\'); this.form.submit();"></td>', $prettyFile);
+                    $tableRow .= "</tr>";
+                    
+                    echo $tableRow;
 		}
 
 		?>
 	</tbody>
 	</table>
-        <input type="hidden" name="album" value="test" />
+        <input type="hidden" id="album" name="album" />
     </form>
 </body>
 </html>
