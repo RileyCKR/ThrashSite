@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notifier>
+	<latest>1.2</latest>
+	<changelog>
+<![CDATA[
+<h4>Version 1.2</h4>
+<ul>
+<li>Added ability to homepage widgets to traditional blog style homepage.</li>
+<li>Added posts navigation (optional, activate from Avenue theme options panel).</li>
+<li>Added full height to social widgets.</li>
+<li>Fixed the z-index to top navigation dropdown level.</li>
+<li>Added options to "Tabs" widget for customization.</li>
+<li>Added option to Avenue theme options panel to disabled featured slider.</li>
+<li>Added option to disable featured image per single posts page.</li>
+<li>Added twitter and facebook fields to "Edit profile page". Author website will now link in author bio along with a link to their twitter and facebook account (twitter and facebook is optional).</li>
+<li>Added cache to twitter widget.</li>
+<li>Added target to button shortcode.</li>
+<li>Added languages folder in the theme folder. Drop your translation files in the theme folder.</li>
+<li>Added description to category and tag pages.</li>
+<li>Fixed contact form subject line.</li>
+<li>Added latest reviews widget.</li>
+<li>Updated documentation.</li>
+</ul>
+]]>
+	</changelog>
+</notifier>
