@@ -1,22 +1,19 @@
 <?php
 /**
- * Code to load wordpress methods so we can use their authentication methods
+ * Load Wordpress dependencies so we can use their authentication methods.
  */
 define('WP_USE_THEMES', true);
-
 if ( !isset($wp_did_header) ) {
-
 	$wp_did_header = true;
-
-	require_once( '../wp-load.php' );
-
+        $root = '../'; //NOTE: This path must point to the root of the site
+	require_once( $root . 'wp-load.php' );
 }
 
 /**
  * Show error message if the user doesn't have sufficient privelages
  */
 if (! current_user_can('publish_posts')) {
-	header ('Status: 403 Forbidden');
+        header ('Status: 403 Forbidden');
 	exit;
 }
 
